@@ -1,10 +1,16 @@
 import express from "express";
-//import {} from "../controllers/task.controllers.js";
+import {
+  getAllTasks,
+  getTask,
+  createTask,
+  updateTask,
+  deleteTask,
+} from "../controllers/task.controllers.js";
 
-export const routerUser = express.Router();
+export const routerTask = express.Router();
 
-//routerLanguage.get("/tasks", getAllTasks);
-//routerLanguage.get("/tasks/:id", getTask);
-//routerLanguage.post("/tasks", createTask);
-//routerLanguage.put("/tasks/:id", updateTask);
-//routerLanguage.delete("/tasks/:id", deleteTask);
+routerTask.get("/tasks", getAllTasks);
+routerTask.get("/tasks/:id", getTask);
+routerTask.post("/tasks", createTask);
+routerTask.put("/tasks/:id", updateTask);
+routerTask.delete("/tasks/:id", deleteTask);
