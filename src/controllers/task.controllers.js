@@ -31,12 +31,12 @@ export const getTask = async (req, res) => {
 //Crear una nueva Tarea
 export const createTask = async (req, res) => {
   try {
-    const { title, description, isComplete } = req.body;
+    const { title, description } = req.body;
     //Validacion para campos obligatorios
-    if (!title || !description || !isComplete) {
+    if (!title || !description) {
       return res.status(400).json({ Message: "Los campos son obligatorios" });
     }
-    //Validacion para name unico
+    //Validacion para title unico
     const tareaUnico = await taskModel.findOne({ where: { title } });
     if (tareaUnico) {
       return res.status(400).json({ Message: "La tarea ya existe" });
@@ -58,15 +58,9 @@ export const createTask = async (req, res) => {
       return res.status(400).json({ message: "descipcion inválida" });
     }
 
-    if (typeof isComplete !== "boolean")
-      return res
-        .status(400)
-        .json({ Message: "El valor debe ser verdadero o falso" });
-
     const crearTarea = await taskModel.create({
       title,
       description,
-      isComplete,
     });
     return res
       .status(201)
@@ -97,10 +91,6 @@ export const updateTask = async (req, res) => {
   try {
     const { title, description, isComplete } = req.body;
 
-    //Validacion para campos obligatorios
-    if (!title || !description || !isComplete) {
-      return res.status(400).json({ Message: "Los campos son obligatorios" });
-    }
     //Validacion de existencia
     const { id } = req.params;
     const taskId = await taskModel.findOne({ where: { id } });
@@ -108,10 +98,40 @@ export const updateTask = async (req, res) => {
       return res.status(404).json({ Message: "No se encontro la Tarea" });
     }
     //Validacion para title unico
-    const tareaUnica = await taskModel.findOne({ where: { title } });
-    if (tareaUnica) {
-      return res.status(400).json({ Message: "El nombre ya existe,use otro" });
+
+    if (description) {
+      if (
+        !description ||
+        typeof description !== "string" ||
+        description.trim() === "" ||
+        description.length > 100
+      ) {
+        return res.status(400).json({ message: "descipcion inválida" });
+      }
     }
+    if (title) {
+      const tareaUnica = await taskModel.findOne({ where: { title } });
+      if (tareaUnica) {
+        return res
+          .status(400)
+          .json({ Message: "El nombre ya existe,use otro" });
+      }
+      if (
+        !title ||
+        typeof title !== "string" ||
+        title.trim() === "" ||
+        title.length > 100
+      ) {
+        return res.status(400).json({ message: "Titulo inválido" });
+      }
+    }
+    if (isComplete) {
+      if (typeof isComplete !== "boolean")
+        return res
+          .status(400)
+          .json({ Message: "El valor debe ser verdadero o falso" });
+    }
+
     const actualizarUser = taskModel.update(
       { title, description, isComplete },
       { where: { id } }

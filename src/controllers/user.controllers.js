@@ -42,9 +42,14 @@ export const createUser = async (req, res) => {
     }
     //Validacion para name unico
     const usuarioUnico = await userModel.findOne({ where: { name } });
+    const emailUnico = await userModel.findOne({ where: { email } });
     if (usuarioUnico) {
       return res.status(400).json({ Message: "El nombre ya existe,use otro" });
     }
+    if (emailUnico) {
+      return res.status(400).json({ Message: "El correo ya esta registrado" });
+    }
+
     if (!name || typeof name !== "string" || name.length > 100) {
       return res.status(400).json({ message: "Nombre inválido" });
     }
@@ -91,27 +96,51 @@ export const updateUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    //Validacion para campos obligatorios
-    if (!name || !email || !password) {
-      return res.status(400).json({ Message: "Los campos son obligatorios" });
-    }
     //Validacion de existencia
     const { id } = req.params;
     const userId = await userModel.findOne({ where: { id } });
     if (!userId) {
       return res.status(404).json({ Message: "No se encontro el usuario" });
     }
-    //Validacion para name unico
-    const userUnico = await userModel.findOne({ where: { name } });
-    if (userUnico) {
-      return res.status(400).json({ Message: "El nombre ya existe,use otro" });
+    // valida que exista name en el body
+    if (name) {
+      //una vez que validó la existencia de name, verifica que estén bien los datos
+      if (typeof name !== "string" || name.length > 100) {
+        return res.status(400).json({ message: "Nombre inválido" });
+      }
     }
-    const actualizarUser = userModel.update(
+    if (email) {
+      if (typeof email !== "string" || email.length > 100) {
+        return res.status(400).json({ message: "Email inválido" });
+      }
+    }
+    if (password) {
+      if (typeof password !== "string" || password.length > 100) {
+        return res.status(400).json({ message: "La contraseña es incorrecta" });
+      }
+    }
+    //Valido que existe name en el body,sino pasa de largo y actualiza igual
+    if (name) {
+      const userUnico = await userModel.findOne({ where: { name } });
+
+      //Validacion para name unico
+      if (userUnico) {
+        return res
+          .status(400)
+          .json({ Message: "El nombre ya existe,use otro" });
+      }
+    }
+
+    const actualizarUser = await userModel.update(
       { name, email, password },
       { where: { id } }
     );
 
-    return res.status(200).json({ Message: "Usuario actualizado" });
+    const usuarioActualizado = await userModel.findOne({ where: { id } });
+
+    return res
+      .status(200)
+      .json({ Message: "Usuario actualizado", usuarioActualizado });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ Message: "Error en el servidor" });
