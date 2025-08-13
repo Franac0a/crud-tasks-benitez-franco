@@ -58,6 +58,11 @@ export const createTask = async (req, res) => {
       return res.status(400).json({ message: "descipcion inválida" });
     }
 
+    if (typeof isComplete !== "boolean")
+      return res
+        .status(400)
+        .json({ Message: "El valor debe ser verdadero o falso" });
+
     const crearTarea = await taskModel.create({
       title,
       description,

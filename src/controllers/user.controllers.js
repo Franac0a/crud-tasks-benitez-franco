@@ -52,7 +52,7 @@ export const createUser = async (req, res) => {
       return res.status(400).json({ message: "Email inválido" });
     }
     if (!password || typeof password !== "string" || password.length > 100) {
-      return res.status(400).json({ message: "Contraseña inválida" });
+      return res.status(400).json({ message: "La contraseña es incorrecta" });
     }
 
     const crearUser = await userModel.create({
