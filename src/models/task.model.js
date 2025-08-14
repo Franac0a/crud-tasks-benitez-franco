@@ -1,7 +1,8 @@
 import { sequelize } from "../config/database.js";
 import { DataTypes } from "sequelize";
+import { UserModel } from "./user.model.js";
 
-export const taskModel = sequelize.define(
+export const TaskModel = sequelize.define(
   "Task",
   {
     title: {
@@ -17,8 +18,19 @@ export const taskModel = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
   },
   {
     timestamps: false,
   }
 );
+TaskModel.belongsTo(UserModel, { foreignKey: "user_id", as: "author" });
+
+UserModel.hasMany(TaskModel, { foreignKey: "user_id" });

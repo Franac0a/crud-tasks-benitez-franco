@@ -1,8 +1,8 @@
-import { taskModel } from "../models/task.model.js";
-
+import { TaskModel } from "../models/task.model.js";
+import { UserModel } from "../models/user.model.js";
 export const getAllTasks = async (req, res) => {
   try {
-    const traerTareas = await taskModel.findAll();
+    const traerTareas = await TaskModel.findAll();
     if (!traerTareas) {
       return res.status(404).json({ Message: "No se encontraron Tareas" });
     }
@@ -17,7 +17,7 @@ export const getTask = async (req, res) => {
   try {
     //Para buscar por id
     const { id } = req.params;
-    const taskId = await taskModel.findOne({ where: { id } });
+    const taskId = await TaskModel.findOne({ where: { id } });
     if (!taskId) {
       return res.status(404).json({ Message: "No se encontro la tarea" });
     }
@@ -32,12 +32,21 @@ export const getTask = async (req, res) => {
 export const createTask = async (req, res) => {
   try {
     const { title, description } = req.body;
+    const { userId } = req.params;
     //Validacion para campos obligatorios
     if (!title || !description) {
       return res.status(400).json({ Message: "Los campos son obligatorios" });
     }
+
+    // Validar usuario existente
+    const usuario = await UserModel.findOne({ where: { id: userId } });
+    if (!usuario) {
+      return res
+        .status(404)
+        .json({ Message: "No se encontró el usuario asociado" });
+    }
     //Validacion para title unico
-    const tareaUnico = await taskModel.findOne({ where: { title } });
+    const tareaUnico = await TaskModel.findOne({ where: { title } });
     if (tareaUnico) {
       return res.status(400).json({ Message: "La tarea ya existe" });
     }
@@ -58,9 +67,10 @@ export const createTask = async (req, res) => {
       return res.status(400).json({ message: "descipcion inválida" });
     }
 
-    const crearTarea = await taskModel.create({
+    const crearTarea = await TaskModel.create({
       title,
       description,
+      user_id: userId,
     });
     return res
       .status(201)
@@ -74,11 +84,11 @@ export const createTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const taskId = await taskModel.findOne({ where: { id } });
+    const taskId = await TaskModel.findOne({ where: { id } });
     if (!taskId) {
       return res.status(404).json({ Message: "No se encontro la Tarea" });
     }
-    const eliminarTarea = taskModel.destroy({ where: { id } });
+    const eliminarTarea = TaskModel.destroy({ where: { id } });
     return res.status(200).json({ Message: "Se elimino la Tarea!" });
   } catch (error) {
     console.log(error);
@@ -93,7 +103,7 @@ export const updateTask = async (req, res) => {
 
     //Validacion de existencia
     const { id } = req.params;
-    const taskId = await taskModel.findOne({ where: { id } });
+    const taskId = await TaskModel.findOne({ where: { id } });
     if (!taskId) {
       return res.status(404).json({ Message: "No se encontro la Tarea" });
     }
@@ -110,7 +120,7 @@ export const updateTask = async (req, res) => {
       }
     }
     if (title) {
-      const tareaUnica = await taskModel.findOne({ where: { title } });
+      const tareaUnica = await TaskModel.findOne({ where: { title } });
       if (tareaUnica) {
         return res
           .status(400)
@@ -132,7 +142,7 @@ export const updateTask = async (req, res) => {
           .json({ Message: "El valor debe ser verdadero o falso" });
     }
 
-    const actualizarUser = taskModel.update(
+    const actualizarUser = TaskModel.update(
       { title, description, isComplete },
       { where: { id } }
     );

@@ -1,9 +1,9 @@
-import { userModel } from "../models/user.model.js";
+import { UserModel } from "../models/user.model.js";
 
 //Traer todos los usuarios
 export const getAllUsers = async (req, res) => {
   try {
-    const traerUsers = await userModel.findAll();
+    const traerUsers = await UserModel.findAll();
     if (!traerUsers) {
       return res.status(404).json({ Message: "No se encontraron usuarios" });
     }
@@ -21,7 +21,7 @@ export const getUserId = async (req, res) => {
   try {
     //Para buscar por id
     const { id } = req.params;
-    const userId = await userModel.findOne({ where: { id } });
+    const userId = await UserModel.findOne({ where: { id } });
     if (!userId) {
       return res.status(404).json({ Message: "No se encontro el usuario" });
     }
@@ -41,8 +41,8 @@ export const createUser = async (req, res) => {
       return res.status(400).json({ Message: "Los campos son obligatorios" });
     }
     //Validacion para name unico
-    const usuarioUnico = await userModel.findOne({ where: { name } });
-    const emailUnico = await userModel.findOne({ where: { email } });
+    const usuarioUnico = await UserModel.findOne({ where: { name } });
+    const emailUnico = await UserModel.findOne({ where: { email } });
     if (usuarioUnico) {
       return res.status(400).json({ Message: "El nombre ya existe,use otro" });
     }
@@ -60,7 +60,7 @@ export const createUser = async (req, res) => {
       return res.status(400).json({ message: "La contraseña es incorrecta" });
     }
 
-    const crearUser = await userModel.create({
+    const crearUser = await UserModel.create({
       name,
       email,
       password,
@@ -79,11 +79,11 @@ export const deleteUser = async (req, res) => {
   try {
     //Para buscar por id
     const { id } = req.params;
-    const userId = await userModel.findOne({ where: { id } });
+    const userId = await UserModel.findOne({ where: { id } });
     if (!userId) {
       return res.status(404).json({ Message: "No se encontro el usuario" });
     }
-    const eliminarUsuario = userModel.destroy({ where: { id } });
+    const eliminarUsuario = UserModel.destroy({ where: { id } });
     return res.status(200).json({ Message: "Se elimino el usuario!" });
   } catch (error) {
     console.log(error);
@@ -98,7 +98,7 @@ export const updateUser = async (req, res) => {
 
     //Validacion de existencia
     const { id } = req.params;
-    const userId = await userModel.findOne({ where: { id } });
+    const userId = await UserModel.findOne({ where: { id } });
     if (!userId) {
       return res.status(404).json({ Message: "No se encontro el usuario" });
     }
@@ -121,7 +121,7 @@ export const updateUser = async (req, res) => {
     }
     //Valido que existe name en el body,sino pasa de largo y actualiza igual
     if (name) {
-      const userUnico = await userModel.findOne({ where: { name } });
+      const userUnico = await UserModel.findOne({ where: { name } });
 
       //Validacion para name unico
       if (userUnico) {
@@ -131,12 +131,12 @@ export const updateUser = async (req, res) => {
       }
     }
 
-    const actualizarUser = await userModel.update(
+    const actualizarUser = await UserModel.update(
       { name, email, password },
       { where: { id } }
     );
 
-    const usuarioActualizado = await userModel.findOne({ where: { id } });
+    const usuarioActualizado = await UserModel.findOne({ where: { id } });
 
     return res
       .status(200)
