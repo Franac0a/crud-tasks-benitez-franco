@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../database/database.js";
+import { sequelize } from "../config/database.js";
 import { UserModel } from "./user.model.js";
 
 export const SkillModel = sequelize.define(
@@ -10,7 +10,7 @@ export const SkillModel = sequelize.define(
       allowNull: false,
     },
     number: {
-      type: DataTypes.NUMBER(5),
+      type: DataTypes.INTEGER(5),
       allowNull: false,
     },
   },

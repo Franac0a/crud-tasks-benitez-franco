@@ -4,7 +4,7 @@ import {
   getAllSkills,
 } from "../controllers/user_skills_controllers.js";
 
-export const routerSkills = express.Router();
+export const routerSkills = Router();
 
-routerTask.post("/skills", createSkill);
-routerTask.get("/skills", getAllSkills);
+routerSkills.post("/skills", createSkill);
+routerSkills.get("/skills", getAllSkills);

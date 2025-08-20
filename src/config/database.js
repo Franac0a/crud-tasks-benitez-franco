@@ -17,7 +17,7 @@ export const starDb = async () => {
   try {
     await sequelize.authenticate();
 
-    await sequelize.sync();
+    await sequelize.sync({ force: false });
     console.log("Se establecio conexion con la db");
   } catch (error) {
     console.log(error);

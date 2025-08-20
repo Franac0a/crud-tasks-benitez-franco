@@ -1,10 +1,10 @@
-import express from "express";
 import dotenv from "dotenv";
+import express from "express";
 import { starDb } from "./src/config/database.js";
 import { routerUser } from "./src/routes/user.routes.js";
 import { routerTask } from "./src/routes/task.routes.js";
-import { routerAddress } from "./src/routes/user_address.routes.js";
 import { routerSkills } from "./src/routes/user_skills.routes.js";
+import { routerAddress } from "./src/routes/user_address.routes.js";
 
 dotenv.config();
 

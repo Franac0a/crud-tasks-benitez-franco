@@ -4,7 +4,7 @@ import {
   getAllAddresses,
 } from "../controllers/user_address_controllers.js";
 
-export const routerAddress = express.Router();
+export const routerAddress = Router();
 
-routerTask.post("/address", createAddress);
-routerTask.get("/address", getAllAddresses);
+routerAddress.post("/address", createAddress);
+routerAddress.get("/address", getAllAddresses);
