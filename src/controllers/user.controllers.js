@@ -1,9 +1,12 @@
 import { UserModel } from "../models/user.model.js";
+import { TaskModel } from "../models/task.model.js";
 
 //Traer todos los usuarios
 export const getAllUsers = async (req, res) => {
   try {
-    const traerUsers = await UserModel.findAll();
+    const traerUsers = await UserModel.findAll({
+      include: { model: TaskModel, as: "task" },
+    });
     if (!traerUsers) {
       return res.status(404).json({ Message: "No se encontraron usuarios" });
     }
@@ -21,7 +24,9 @@ export const getUserId = async (req, res) => {
   try {
     //Para buscar por id
     const { id } = req.params;
-    const userId = await UserModel.findOne({ where: { id } });
+    const userId = await UserModel.findByPk(id, {
+      include: { model: TaskModel, as: "task" },
+    });
     if (!userId) {
       return res.status(404).json({ Message: "No se encontro el usuario" });
     }

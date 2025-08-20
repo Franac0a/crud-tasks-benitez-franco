@@ -31,6 +31,6 @@ export const TaskModel = sequelize.define(
     timestamps: false,
   }
 );
-TaskModel.belongsTo(UserModel, { foreignKey: "user_id", as: "author" });
+TaskModel.belongsTo(UserModel, { foreignKey: "user_id", as: "author_id" });
 
-UserModel.hasMany(TaskModel, { foreignKey: "user_id" });
+UserModel.hasMany(TaskModel, { foreignKey: "user_id", as: "task" });

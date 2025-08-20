@@ -45,7 +45,7 @@ export const createTask = async (req, res) => {
         .status(404)
         .json({ Message: "No se encontró el usuario asociado" });
     }
-    //Validacion para title unico
+    //Validacion para tarea unica
     const tareaUnico = await TaskModel.findOne({ where: { title } });
     if (tareaUnico) {
       return res.status(400).json({ Message: "La tarea ya existe" });
