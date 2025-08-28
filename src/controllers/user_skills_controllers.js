@@ -1,5 +1,5 @@
 import { UserModel } from "../models/user.model.js";
-import { SkillModel } from "../models/skill.model.js";
+import { SkillModel } from "../models/user_skills_model.js";
 
 // POST /api/skills → crear una nueva skill
 export const createSkill = async (req, res) => {
