@@ -5,18 +5,16 @@ import { UserModel } from "./user.model.js";
 export const SkillModel = sequelize.define(
   "skill",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     name: {
       type: DataTypes.STRING(50),
       allowNull: false,
     },
+    number: {
+      type: DataTypes.INTEGER(5),
+      allowNull: false,
+    },
   },
   {
-    tableName: "skills",
     timestamps: false,
   }
 );

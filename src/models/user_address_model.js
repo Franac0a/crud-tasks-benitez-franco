@@ -5,11 +5,6 @@ import { UserModel } from "./user.model.js";
 export const UserAddressModel = sequelize.define(
   "user_address",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     street: {
       type: DataTypes.STRING(100),
       allowNull: false,
@@ -29,7 +24,6 @@ export const UserAddressModel = sequelize.define(
     },
   },
   {
-    tableName: "user_address",
     timestamps: false,
   }
 );

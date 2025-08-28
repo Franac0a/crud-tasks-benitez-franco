@@ -1,5 +1,9 @@
 import { UserModel } from "../models/user.model.js";
+<<<<<<< HEAD
 import { UserAddressModel } from "../models/user_address_model.js";
+=======
+import { UserAddressModel } from "../models/user_adress_model.js";
+>>>>>>> 3676b0298ac13da33e1dd12ad20a5f45c0ab0a93
 
 // POST /api/user_address → crear una nueva dirección
 export const createAddress = async (req, res) => {

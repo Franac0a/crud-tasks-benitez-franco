@@ -19,15 +19,14 @@ export const createSkill = async (req, res) => {
   }
 };
 
-// GET /api/skills → obtener todas las skills con los usuarios asociados
 export const getAllSkills = async (req, res) => {
   try {
     const skills = await SkillModel.findAll({
       include: {
         model: UserModel,
         as: "users",
-        attributes: ["id", "name", "email"], // solo info esencial
-        through: { attributes: [] }, // oculta user_skills
+        attributes: ["id", "name", "email"],
+        through: { attributes: [] },
       },
     });
     return res.status(200).json({ skills });
