@@ -9,9 +9,13 @@ export const SkillModel = sequelize.define(
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    number: {
-      type: DataTypes.INTEGER(5),
+    user_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: "User",
+        key: "id",
+      },
     },
   },
   {

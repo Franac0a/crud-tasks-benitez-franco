@@ -76,7 +76,7 @@ export const createTask = async (req, res) => {
       .status(201)
       .json({ Message: "Tarea creada con exito", crearTarea });
   } catch (error) {
-    console.log(error);
+    console.error(message.error);
     return res.status(500).json({ Message: "Error en el servidor" });
   }
 };
@@ -121,11 +121,7 @@ export const updateTask = async (req, res) => {
     }
     if (title) {
       const tareaUnica = await TaskModel.findOne({ where: { title } });
-      if (tareaUnica) {
-        return res
-          .status(400)
-          .json({ Message: "El nombre ya existe,use otro" });
-      }
+
       if (
         !title ||
         typeof title !== "string" ||
