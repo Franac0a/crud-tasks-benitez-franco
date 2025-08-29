@@ -1,7 +1,6 @@
-// controllers/userSkill.controller.js
-import { SkillModelInter } from "../models/user_skills_inter_model.js";
+import { SkillUsers } from "../models/user_skills_model.js";
 import { UserModel } from "../models/user.model.js";
-import { SkillModel } from "../models/user_skills_model.js";
+import { SkillModel } from "../models/skills_model.js";
 
 export const addSkillToUser = async (req, res) => {
   try {
@@ -14,7 +13,7 @@ export const addSkillToUser = async (req, res) => {
       return res.status(404).json({ message: "Usuario o skill no encontrado" });
     }
 
-    const userSkill = await SkillModelInter.create({
+    const userSkill = await SkillUsers.create({
       user_id: userId,
       skill_id: skillId,
       level: level || null,
@@ -47,7 +46,7 @@ export const removeSkillFromUser = async (req, res) => {
   try {
     const { userId, skillId } = req.body;
 
-    const deleted = await SkillModelInter.destroy({
+    const deleted = await SkillUsers.destroy({
       where: { user_id: userId, skill_id: skillId },
     });
 

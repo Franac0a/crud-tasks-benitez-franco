@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import {
   getAllUsers,
   getUserId,
@@ -7,7 +7,7 @@ import {
   deleteUser,
 } from "../controllers/user.controllers.js";
 
-export const routerUser = express.Router();
+export const routerUser = Router();
 
 routerUser.get("/users", getAllUsers);
 routerUser.get("/users/:id", getUserId);

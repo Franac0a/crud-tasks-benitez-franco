@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import {
   getAllTasks,
   getTask,
@@ -7,7 +7,7 @@ import {
   deleteTask,
 } from "../controllers/task.controllers.js";
 
-export const routerTask = express.Router();
+export const routerTask = Router();
 
 routerTask.get("/tasks", getAllTasks);
 routerTask.get("/tasks/:id", getTask);

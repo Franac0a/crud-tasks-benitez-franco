@@ -4,8 +4,8 @@ import { starDb } from "./src/config/database.js";
 import { routerUser } from "./src/routes/user.routes.js";
 import { routerTask } from "./src/routes/task.routes.js";
 import { routerUserAddress } from "./src/routes/user_address.routes.js";
-import { routerUserSkill } from "./src/routes/user_skills_inter.routes.js";
-import { routerSkill } from "./src/routes/user_skills.routes.js";
+import { routerUserSkill } from "./src/routes/user_skills.routes.js";
+import { routerSkill } from "./src/routes/skills.routes.js";
 
 dotenv.config();
 

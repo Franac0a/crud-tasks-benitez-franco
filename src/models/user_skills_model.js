@@ -1,8 +1,10 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
+import { SkillModel } from "./skills_model.js";
+import { UserModel } from "./user.model.js";
 
 export const SkillUsers = sequelize.define(
-  "skills_users",
+  "users_skills",
   {
     id: {
       type: DataTypes.INTEGER,
